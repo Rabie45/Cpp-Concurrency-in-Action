@@ -7,8 +7,7 @@ have rules for which thread can access which bit of data
 - the problems with sharing data between threads are all due to the consequences of modifying data.
 - if all shared data is read-only, there’s no problem,because the data read by one thread is unaffected
 - if one thread is reading the doubly linked list while another is removing a node, it’s quite possible for the reading thread to see the list with a node only partially removed
-- On the other hand, if the second thread is trying to delete the rightmost node in the diagram, it might end up permanently corrupting the data structure and eventually crashing the program this is called a race condition ![Screenshot from 2024-07-23 09-49-54](https://github.com/user-attachments/assets/58d02f2e-784c-4ce3-b6f5-223c9b294cec)
-
+- On the other hand, if the second thread is trying to delete the rightmost node in the diagram, it might end up permanently corrupting the data structure and eventually crashing the program this is called a race condition
 ### 3.1.1 Race conditions
 - In concurrency, a race condition is anything where the outcome depends on the relative ordering of execution of operations on two or more threads
 - data races cause the dreaded undefined behavior.
@@ -113,13 +112,11 @@ int main()
     return 0;
 }
 ```
-![Screenshot from 2024-07-23 10-26-02](https://github.com/user-attachments/assets/66382227-ba12-4f0b-9685-b7c9fde268cf)
-
+## PIC
+## PIC OUT
 - be carfull if u make the detach with check thread function it will check element without add thread add any thing then it causes segmentation fault error 
 - If all the member functions of the class lock the mutex before accessing any other data members and unlock it when
 done, the data is nicely protected from all comers.
-
-![Screenshot from 2024-07-23 10-27-20](https://github.com/user-attachments/assets/f54565c5-c35e-4d78-bf51-83080fb34866)
 
 ### Structuring code for protecting shared data
 - it’s also important to check that they don’t pass such pointers or references in to func-
@@ -184,8 +181,7 @@ int main() {
 }
 
 ```
-![Screenshot from 2024-07-23 10-40-41](https://github.com/user-attachments/assets/37afd136-61c7-446a-82f6-c203e850b958)
-
+### PIC OUT
 - the code in process_data looks harmless enough, nicely protected with std::lock_guard , but the call to the user-supplied function func B means that foo can pass in malicious_function to bypass the protection c and then call do_something() without the mutex being locked .
 - Don’t pass pointers and references to protected data outside the scope of the lock, whether by
 returning them from a function, storing them in externally visible memory, or passing them as
@@ -216,6 +212,124 @@ option 2 or 3, it’s relatively easy to provide option 1 as well, and this prov
 your code the ability to choose whichever option is most appropriate for them for very little additional cost.
 - EXAMPLE DEFINITION OF A THREAD - SAFE STACK
 ```
+/*#include <iostream>
+#include <list>
+#include <mutex>
+#include <algorithm>
+#include <thread>
+
+// Global list and mutex
+std::list<int> some_list;
+std::mutex some_mutex;
+
+// Function to add a value to the list
+void add_to_list(int new_value)
+{
+    std::lock_guard<std::mutex> guard(some_mutex);
+    some_list.push_back(new_value);
+}
+
+// Function to check if a value exists in the list
+bool list_contains(int value_to_find)
+{
+    std::lock_guard<std::mutex> guard(some_mutex);
+    return std::find(some_list.begin(), some_list.end(), value_to_find) != some_list.end();
+}
+
+// Function to run in a thread, adding values to the list
+void add_values_to_list()
+{
+    for (int i = 0; i < 10; ++i)
+    {
+        add_to_list(i);
+    }
+}
+
+// Function to run in a thread, checking if values exist in the list
+void check_values_in_list()
+{
+    for (int i = 0; i < 10; ++i)
+    {
+        if (list_contains(i))
+        {
+            std::cout << "List contains " << i << std::endl;
+        }
+        else
+        {
+            std::cout << "List does not contain " << i << std::endl;
+        }
+    }
+}
+
+int main()
+{
+    // Create threads to add values and check values in the list
+    std::thread add_thread(add_values_to_list);
+    std::thread check_thread(check_values_in_list);
+
+    // Wait for threads to complete
+    add_thread.detach();
+    check_thread.join();
+
+    return 0;
+}
+*/
+/*#include <iostream>
+#include <string>
+#include <mutex>
+
+// Define some_data class
+class some_data {
+public:
+    int a;
+    std::string b;
+
+    void do_something() {
+        std::cout << "Doing something with data: " << a << ", " << b << std::endl;
+    }
+};
+
+// Define data_wrapper class
+class data_wrapper {
+private:
+    some_data data;
+    std::mutex m;
+
+public:
+    template<typename Function>
+    void process_data(Function func) {
+        std::lock_guard<std::mutex> l(m);
+        func(data);
+    }
+};
+
+// Global pointer to unprotected some_data
+some_data* unprotected;
+
+// Define a malicious function
+void malicious_function(some_data& protected_data) {
+    unprotected = &protected_data;
+}
+
+// Main function to demonstrate the concept
+int main() {
+    // Create a data_wrapper object
+    data_wrapper x;
+
+    // Process the data with the malicious function
+    x.process_data(malicious_function);
+
+    // Now unprotected points to the protected_data inside data_wrapper
+    if (unprotected) {
+        unprotected->a = 42;
+        unprotected->b = "Hacked!";
+        unprotected->do_something();
+    } else {
+        std::cerr << "unprotected is nullptr" << std::endl;
+    }
+
+    return 0;
+}*/
 #include <exception>
 #include <memory>
 #include <stack>
@@ -314,7 +428,7 @@ int main() {
 }
 
 ```
-![Screenshot from 2024-07-23 12-55-34](https://github.com/user-attachments/assets/a79343a5-f5f6-43b8-834b-d5d3fe92b10e)
+### PIC OUTPUT
 - This simplification of the interface allows for better control over the data; you can ensure that the mutex is locked for the entirety of an operation. The following listing shows a simple implementation that’s a wrapper around std::stack<> .
 - The first versions of the Linux kernel that were designed to handle multi-
 processor systems used a single global kernel lock. Although this worked, it meant that a two-processor system typically had much worse performance than two single-
@@ -362,4 +476,35 @@ int main() {
   t2.join();
 }
 ```
-![Screenshot from 2024-07-23 13-18-07](https://github.com/user-attachments/assets/5bda56e9-e8cf-4b4d-bc49-64cf845705d1)
+### PIC OUTPUT
+## ACQUIRE LOCKS IN A FIXED ORDER
+- This hand-over-hand locking style allows multiple threads to access the list, pro-
+vided each is accessing a different node. However, in order to prevent deadlock, the
+nodes must always be locked in the same order: if two threads tried to traverse the list
+in reverse order using hand-over-hand locking.
+- One way to prevent deadlock here is to define an order of traversal, so a thread
+must always lock A before B and B before C. This would eliminate the possibility of
+deadlock at the expense of disallowing reverse traversal.
+## USE A LOCK HIERARCHY
+Although this is really a particular case of defining lock ordering, a lock hierarchy can
+provide a means of checking that the convention is adhered to at runtime.
+
+### Flexible locking with std::unique_lock
+std::unique_lock provides a bit more flexibility than std::lock_guard by relaxing
+the invariants; a std::unique_lock instance doesn’t always own the mutex that it’s
+associated with.
+
+## 3.2.7 Transferring mutex ownership between scopes
+- Because std::unique_lock instances don’t have to own their associated mutexes, the
+ownership of a mutex can be transferred between instances by moving the instances
+around.
+- you have to do it explicitly by calling std::move() .
+### 3.3.3 Recursive locking
+- With std::mutex , it’s an error for a thread to try to lock a mutex it already owns, and
+attempting to do so will result in undefined behavior.
+- t works just like std::mutex , except that you can acquire
+multiple locks on a single instance from the same thread. You must release all your
+locks before the mutex can be locked by another thread, so if you call lock() three
+times, you must also call unlock() three times. Correct use of std::lock_guard
+<std::recursive_mutex> and std::unique_lock<std::recursive_mutex> will han-
+dle this for you.
