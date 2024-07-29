@@ -42,7 +42,7 @@ int main() {
 }
 
 ```
-# PIC OUT
+![Screenshot from 2024-07-28 09-48-10](https://github.com/user-attachments/assets/c3cb91f8-abf4-4e63-8703-bd8ca82ab923)
 - In the loop, the function unlocks the mutex B before the sleep c and locks it again
 afterward d , so another thread gets a chance to acquire it and set the flag .
 - Preferred, option is to use the facilities from the C++ Standard
@@ -120,7 +120,7 @@ int main() {
   return 0;
 }
 ```
-# PIC OUT
+![Screenshot from 2024-07-28 11-04-34](https://github.com/user-attachments/assets/f91ef521-72a5-43d2-a333-09185d0faf30)
 
 - you have a queue B that’s used to pass the data between the two threads. When the data is ready, the thread preparing the data locks the mutex protecting the queue using a std::lock_guard and pushes the data onto the queue c . It then calls the notify_one() member function on the std::condition_variable instance to notify the waiting thread (if there is one)..
 - lambda function []{return !data_queue.empty();} checks
@@ -196,10 +196,12 @@ int main() {
   return 0;
 }
 ```
-## PIC OUT
+![Screenshot from 2024-07-29 10-21-04](https://github.com/user-attachments/assets/d7f89713-3d0a-4595-8288-b54281abaa5f)
+
 ### Durations
 - Durations handled by the std:: chrono::duration<> class template
 
 
 ### Synchronizing operations with message passing
 - if there’s no shared data, each thread can be reasoned about entirely independently, purely on the basis of how it behaves in response to the messages that it received.
+  ![Screenshot from 2024-07-29 10-27-33](https://github.com/user-attachments/assets/141a7bea-f103-48a4-a714-47f8e33350b1)
