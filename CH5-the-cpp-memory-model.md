@@ -32,10 +32,13 @@ for a single variable, you have a data race and undefined behavior
 - you can use mutexes to make other operations appear atomic.
 - is_lock_free() member function, which allows the user to determine whether operations on a given type are done directly with atomic instructions
 - std::atomic_flag are initialized to clear
-## PIC OUT
+- ![Screenshot from 2024-07-30 09-58-42](https://github.com/user-attachments/assets/65706578-6b4d-41b7-b8ed-f99a244e5ec0)
+
 
 - As well as the basic atomic types, the C++ Standard Library also provides a set of typedef s for the atomic types corresponding to the various nonatomic Standard Library typedef s such as std::size_t .
-## PIC OUT
+![Screenshot from 2024-07-30 09-55-31](https://github.com/user-attachments/assets/499783e6-d282-4310-8b85-5d6861cebf01)
+
+
 - they have no copy constructors or copy assignment operators.
 - They do, however, support assignment from and implicit conversion to the corresponding built-in types as well as direct load() and store() member functions, exchange() , compare_exchange_weak() , and compare_exchange_strong() . They also support the compound assignment operators where appropriate: +=, -=, *=, |=, and so on, and the integral types and std::atomic<> specializations for pointers support ++ and -- .
 - The std::atomic<> class template is a generic class template, the operations are limited to load() , store() (and assignment from and conversion to the user-defined type), exchange(), compare_exchange_weak() , and compare_exchange_strong() .
@@ -112,7 +115,7 @@ int main()
 }
 
 ```
-## PICOYT
+![Screenshot from 2024-07-31 10-22-31](https://github.com/user-attachments/assets/d954cab0-51d0-433b-bc56-50ae5d53aebc)
 - while(flag.test_and_set(std::memory_order_acquire));
 
   - This line is part of the lock method in the spinlock_mutex class:
@@ -155,7 +158,9 @@ exchange_weak() , and compare_exchange_strong() )
 ##  Synchronizing operations and enforcing ordering
 - the first thread sets a flag to indicate that the data is read
 - the second thread doesn’t read the data until the flag is set. The following listing shows such a scenario.
-## PIC OUT
+
+![Screenshot from 2024-07-30 10-57-22](https://github.com/user-attachments/assets/3a123e77-71a9-47b9-91d4-9f2df882965f)
+
 ### The synchronizes-with relationship
 - a suitably tagged atomic write operation W on a variable x syn-
 chronizes-with a suitably tagged atomic read operation on x that reads the value
