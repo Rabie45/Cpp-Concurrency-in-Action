@@ -6,8 +6,8 @@ A comprehensive guide to writing concurrent and parallel programs in C++ using t
 - [x] Chapter 1: Introduction to Concurrency in C++
 - [x] Chapter 2: Managing Threads
 - [x] Chapter 3: Sharing Data Between Threads
-- [ ] Chapter 4: Synchronizing Concurrent Operations
-- [ ] Chapter 5: Designing Concurrent Code
+- [x] Chapter 4: Synchronizing Concurrent Operations
+- [x] Chapter 5: Designing Concurrent Code
 - [ ] Chapter 6: Advanced Thread Management
 - [ ] Chapter 7: Concurrent Data Structures
 - [ ] Chapter 8: Designing for Scalability
