@@ -134,7 +134,7 @@ int main() {
     return 0;
 }
 ```
-## PIC OUT
+![Screenshot from 2024-08-04 11-22-02](https://github.com/user-attachments/assets/948e9fda-422b-4225-a5d0-b9beb86c20c9)
 
 ### 6.2.2 A thread-safe queue using locks and condition variables
 These are the private members of the class:
@@ -241,6 +241,7 @@ int main() {
     return 0;
 }
 ```
+
 - This serialization of threads can potentially limit the per-
 formance of an application where there’s significant contention on the stack : while a thread is waiting for the lock.
 - The default constructor initializes an empty threadsafe_queue.
@@ -249,7 +250,8 @@ formance of an application where there’s significant contention on the stack :
 - The second wait_and_pop method does the same as the first, but returns a shared_ptr to the popped element instead of assigning it to a reference.
 - The try_pop method tries to pop an element without waiting. It locks the mutex, checks if the queue is empty, and if not, assigns the front element to the reference and removes it from the queue. It returns true if successful, false otherwise.
 - The second try_pop method does the same as the first, but returns a shared_ptr to the popped element instead of assigning it to a reference.- The empty method checks if the queue is empty. It locks the mutex to ensure thread safety and returns whether the queue is empty.
-## PIC OUT
+  ![Screenshot from 2024-08-04 11-22-09](https://github.com/user-attachments/assets/36d09875-51f4-42e0-af0a-76504ae2e596)
+  
 ### 6.2.3 A thread-safe queue using fine-grained locks and condition variables
 - The simplest data structure for a queue is a singly linked list, as shown in figure 6.1.
 - The queue contains a head pointer, which points to the first item in the list, and each item then points to the next item. Data items are removed from the queue by replacing the head pointer with the pointer to the next item and then returning the data from the old head.
