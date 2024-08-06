@@ -158,6 +158,8 @@ int main() {
 }
 
 ```
+![Screenshot from 2024-08-06 10-45-33](https://github.com/user-attachments/assets/e805d67b-19e0-4fb2-bdd9-a50b5b72befb)
+
 - Each node in the queue holds a std::shared_ptr<T> to the data and a pointer to the next node. The constructor initializes the next pointer to nullptr.
 - These atomic pointers represent the head and tail of the queue. Using std::atomic ensures that operations on these pointers are thread-safe.
 - The constructor initializes the queue with a dummy node, setting both head and tail to point to this node. The destructor iterates through the queue, deleting each node to free memory.
