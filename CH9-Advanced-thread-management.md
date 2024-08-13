@@ -179,7 +179,8 @@ and threadsafe_queue from ch 6
     - template<typename FunctionType> void submit(FunctionType f)
         A template function that accepts any callable object (f) and pushes it onto the work_queue to be executed by the threads.
 
-## OUT PIC
+
+![Screenshot from 2024-08-13 11-40-48](https://github.com/user-attachments/assets/fd42ff51-b6fa-4dc7-b6d4-6b91b2d1fbdf)
 
 ### 9.1.2 Waiting for tasks submitted to a thread pool
 - in the examples in chapter 8 that explicitly spawned threads, after dividing the work between threads, the master thread always waited for the newly spawned threads to finish, to ensure that the overall task was complete before returning to the caller.
